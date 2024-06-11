@@ -1,5 +1,9 @@
+
+
 const express = require("express");
+const cors= require('cors');
 const morgan = require("morgan");
+const path = require('path'); // Importa el módulo 'path'
 const { Pool } = require("pg");
 require("dotenv").config();
 
@@ -15,6 +19,23 @@ const pool = new Pool({
 app.use(morgan("dev"));
 // Middleware para analizar el cuerpo de las solicitudes HTTP
 app.use(express.json());
+
+app.use(
+  express.urlencoded({
+    extended:true
+  })
+)
+app.use(express.json({
+  tupe:"*/*"
+}))
+
+app.use(cors());
+
+
+// Sirve el archivo HTML principal
+app.get('/feriadoForm', (req, res) => {
+  res.send('me hicieron un get')
+});
 
 // Método GET para obtener todos los feriados
 app.get("/feriados", async (req, res) => {
@@ -81,8 +102,6 @@ app.delete("/feriados/:id", async (req, res) => {
 });
 
 
-const PORT = process.env.PORT || 3000; // Utiliza el puerto proporcionado por Render o 3000 como valor predeterminado
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en el puerto ${PORT}`);
+app.listen(3000, () => {
+  console.log("Servidor corriendo en el puerto 3000");
 });
-
