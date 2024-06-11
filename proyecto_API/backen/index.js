@@ -6,7 +6,7 @@ const morgan = require("morgan");
 const path = require('path'); // Importa el módulo 'path'
 const { Pool } = require("pg");
 require("dotenv").config();
-
+ let feriados=[];
 const app = express();
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -52,19 +52,11 @@ app.get("/feriados", async (req, res) => {
 });
 
 // Método POST para agregar un nuevo feriado
-app.post("/feriados", async (req, res) => {
-  try {
-    const { fecha, nombre } = req.body;
-    const client = await pool.connect();
-    const queryText = "INSERT INTO feriados (fecha, nombre) VALUES ($1, $2)";
-    const values = [fecha, nombre];
-    await client.query(queryText, values);
-    client.release();
-    res.status(201).send("Feriado agregado correctamente.");
-  } catch (error) {
-    console.error("Error al agregar el feriado:", error);
-    res.status(500).send("Error interno del servidor");
-  }
+app.post("/feriadosForm", async (req, res) => {
+  let feriado =req.body;
+  feriados.push(feriado);
+  res.send(JSON.stringify("FERIADO GUARDADO"));
+ console.log(feriados);
 });
 
 // Método PUT para actualizar un feriado

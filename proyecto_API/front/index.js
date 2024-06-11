@@ -6,6 +6,13 @@ let fecha = document.getElementById("fecha").value;
 let nombre = document.getElementById("nombre").value;
 let feriado ={fecha: fecha, nombre:nombre}
 let feriadoJson= JSON.stringify(feriado);
-console.log(feriadoJson);
+//console.log(feriadoJson);
 //MANDAR LOS DATOS AL BACKEND
+
+
+fetch('http://localhost:3000/feriadoForm',{
+    method : 'Post',
+    body : feriadoJson
+
+})
 })
